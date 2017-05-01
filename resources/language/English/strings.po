@@ -114,3 +114,7 @@ msgstr "Send"
 msgctxt "#30311"
 msgid "Cancel"
 msgstr "Cancel"
+
+msgctxt "#30312"
+msgid "SMTP Host"
+msgstr ""

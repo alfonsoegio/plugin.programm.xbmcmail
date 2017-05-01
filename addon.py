@@ -72,7 +72,10 @@ def show_mailboxes():
 
 @plugin.route('/new_mail')
 def new_mail():
-    window = NewMailWindow()
+    client = _login()
+    if not client:
+        return
+    window = NewMailWindow(client)
     window.doModal()
     del window
 
@@ -304,6 +307,7 @@ def _login():
                 username=plugin.get_setting('username', unicode),
                 password=plugin.get_setting('password', unicode),
                 host=plugin.get_setting('imap_host', unicode),
+                smtp_host=plugin.get_setting('smtp_host', unicode)
                 use_ssl=plugin.get_setting('use_ssl', bool),
             )
         except InvalidCredentials:

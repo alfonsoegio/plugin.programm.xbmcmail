@@ -18,6 +18,7 @@
 #
 
 import imaplib
+import smtplib
 import re
 import socket
 from email.parser import HeaderParser, Parser
@@ -51,7 +52,7 @@ class XBMCMailClient(object):
     re_fetch_response = re.compile(r'([^ ]+) \(FLAGS \((.*?)\)')
     re_status_response = re.compile(r'.*\(MESSAGES (.+) UNSEEN (.+)\)')
 
-    def __init__(self, username=None, password=None, host=None, use_ssl=True):
+    def __init__(self, username=None, password=None, host=None, smtp_host=None, use_ssl=True):
         self.log('connecting to server %s' % host)
         self.selected_mailbox = None
         self.logged_in = False
@@ -59,6 +60,7 @@ class XBMCMailClient(object):
             raise InvalidCredentials
         if not host:
             raise InvalidHost
+        self._use_ssl = use_ssl
         cls = imaplib.IMAP4_SSL if use_ssl else imaplib.IMAP4
         try:
             self.connection = cls(host)
@@ -74,7 +76,9 @@ class XBMCMailClient(object):
                 raise LoginError(error)
         self.logged_in = True
         self.username = username
+        self.password = password
         self.host = host
+        self.smtp_host = smtp_host
         self.log('connected.')
 
     def get_mailboxes(self, fetch_status=True):
@@ -132,6 +136,17 @@ class XBMCMailClient(object):
             'body_text': body_text,
         }
         return email
+
+    def send_email(self, recipient, subject, body):
+        server = smtplib.SMTP(self.smtp_host, 587)
+        recipients = recipient.split(',')
+        server.ehlo()
+        if self._use_ssl:
+            server.starttls()
+        server.login(self.username, self.password)
+        email_text = "From: %s\nTo: %s\nSubject: %s\n%s" % (self.username, ", ".join(recipients), subject, body)
+        server.sendmail(self.username, recipients, email_text)
+        server.close()
 
     def email_mark_seen(self, mail_id, mailbox=None):
         if mailbox and mailbox != self.selected_mailbox:

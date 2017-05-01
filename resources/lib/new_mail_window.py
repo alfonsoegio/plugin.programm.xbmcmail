@@ -40,8 +40,9 @@ def _(string_id):
         return string_id
 
 class NewMailWindow(pyxbmct.AddonDialogWindow):
-    def __init__(self, title=_('new_message'), recipient='', subject=''):
+    def __init__(self, client, title=_('new_message'), recipient='', subject=''):
         super(NewMailWindow, self).__init__(title)
+        self._client = client
         self._recipient = recipient
         self._subject = subject
         self.setGeometry(600, 480, 10, 2)
@@ -100,4 +101,8 @@ class NewMailWindow(pyxbmct.AddonDialogWindow):
         self.update_view()
 
     def send_mail(self):
+        self._client.send_email(self._recipient_ctl.getText(),
+                               self._subject_ctl.getText(),
+                               self._body_ctl.getText())
+        self.close()
         pass
