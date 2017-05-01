@@ -86,3 +86,31 @@ msgstr ""
 msgctxt "#30304"
 msgid "Email-Provider"
 msgstr ""
+
+msgctxt "#30305"
+msgid "Compose"
+msgstr "Compose"
+
+msgctxt "#30306"
+msgid "New Message"
+msgstr "New Message"
+
+msgctxt "#30307"
+msgid "To"
+msgstr "To"
+
+msgctxt "#30308"
+msgid "Subject"
+msgstr "Subject"
+
+msgctxt "#30309"
+msgid "Message"
+msgstr "Message"
+
+msgctxt "#30310"
+msgid "Send"
+msgstr "Send"
+
+msgctxt "#30311"
+msgid "Cancel"
+msgstr "Cancel"

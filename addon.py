@@ -21,6 +21,7 @@ from xbmcswift2 import Plugin, xbmc, xbmcgui
 from resources.lib.client import (
     XBMCMailClient, InvalidCredentials, InvalidHost
 )
+from resources.lib.new_mail_window import NewMailWindow
 
 STRINGS = {
     'email_mark_seen': 30000,
@@ -35,8 +36,8 @@ STRINGS = {
     'wrong_host': 30009,
     'page': 30010,
     'refresh_inbox': 30011,
+    'compose': 30305
 }
-
 
 plugin = Plugin()
 
@@ -64,8 +65,15 @@ def show_mailboxes():
             mailbox=mailbox['raw_name'],
         )
     } for mailbox in client.get_mailboxes()]
+    items = [{'label': _('compose'),
+              'path': plugin.url_for(endpoint='new_mail')}]+items
     return plugin.finish(items)
 
+@plugin.route('/new_mail')
+def new_mail():
+    window = NewMailWindow()
+    window.doModal()
+    del window
 
 @plugin.route('/mailbox/<mailbox>/', options={'page': '1'})
 @plugin.route('/mailbox/<mailbox>/<page>/', name='show_mailbox_page')
@@ -176,7 +184,6 @@ def email_mark_seen(mailbox, email_id):
     client.email_mark_seen(email_id, mailbox)
     _refresh_view()
 
-
 @plugin.route('/mailbox/<mailbox>/<email_id>/mark_unseen')
 def email_mark_unseen(mailbox, email_id):
     client = _login()
@@ -184,12 +191,11 @@ def email_mark_unseen(mailbox, email_id):
         return
     client.email_mark_unseen(email_id, mailbox)
     _refresh_view()
-    
+
 @plugin.route('/mailbox/<mailbox>')
 def refresh_inbox(mailbox):
     return
     _refresh_view()
-
 
 @plugin.route('/mailbox/<mailbox>/<email_id>/delete')
 def email_delete(mailbox, email_id):
@@ -204,7 +210,6 @@ def email_delete(mailbox, email_id):
         return
     client.email_delete(email_id, mailbox)
     _refresh_view()
-
 
 @plugin.route('/mailbox/<mailbox>/<email_id>/show')
 def email_show(mailbox, email_id):

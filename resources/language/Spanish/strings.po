@@ -83,3 +83,31 @@ msgstr "Usar SSL"
 msgctxt "#30304"
 msgid "Email-Provider"
 msgstr "Proveedor de correo electrónico"
+
+msgctxt "#30305"
+msgid "Enviar"
+msgstr "Enviar"
+
+msgctxt "#30306"
+msgid "Nuevo Mensaje"
+msgstr "Nuevo Mensaje"
+
+msgctxt "#30307"
+msgid "Para"
+msgstr "Para"
+
+msgctxt "#30308"
+msgid "Asunto"
+msgstr "Asunto"
+
+msgctxt "#30309"
+msgid "Mensaje"
+msgstr "Mensaje"
+
+msgctxt "#30310"
+msgid "Enviar"
+msgstr "Enviar"
+
+msgctxt "#30311"
+msgid "Cancelar"
+msgstr "Cancelar"
