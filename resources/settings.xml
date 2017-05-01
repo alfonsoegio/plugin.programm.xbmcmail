@@ -4,6 +4,6 @@
     <setting id="username" type="text" label="30300" />
     <setting id="password" type="text" label="30301" option="hidden" />
     <setting id="imap_host" type="text" label="30302" />
-    <setting id="use_ssl" type="bool" label="30303" default="true" />
     <setting id="smtp_host" type="text" label="30312" />
+    <setting id="use_ssl" type="bool" label="30303" default="true" />
 </settings>
