@@ -66,6 +66,7 @@ def show_mailboxes():
         )
     } for mailbox in client.get_mailboxes()]
     items = [{'label': _('compose'),
+              'icon': 'DefaultAddSource.png',
               'path': plugin.url_for(endpoint='new_mail')}]+items
     return plugin.finish(items)
 

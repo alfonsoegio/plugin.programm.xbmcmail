@@ -44,7 +44,7 @@ class NewMailWindow(pyxbmct.AddonDialogWindow):
         super(NewMailWindow, self).__init__(title)
         self._recipient = recipient
         self._subject = subject
-        self.setGeometry(600, 280, 4, 2)
+        self.setGeometry(600, 480, 10, 2)
         self.set_controls()
         self.set_navigation()
         self.set_events()
@@ -68,11 +68,17 @@ class NewMailWindow(pyxbmct.AddonDialogWindow):
         self._body_ctl = pyxbmct.Edit('body')
         self.placeControl(self._body_ctl, 2, 1)
 
+        self._view_body_ctl = pyxbmct.TextBox('view_body')
+        self.placeControl(self._view_body_ctl, 3, 0, 6, 2)
+
         self._ok_button = pyxbmct.Button(_('ok'), alignment=pyxbmct.ALIGN_CENTER)
-        self.placeControl(self._ok_button, 3, 1)
+        self.placeControl(self._ok_button, 9, 1)
 
         self._cancel_button = pyxbmct.Button(_('cancel'), alignment=pyxbmct.ALIGN_CENTER)
-        self.placeControl(self._cancel_button, 3, 0)
+        self.placeControl(self._cancel_button, 9, 0)
+
+    def update_view(self):
+        self._view_body_ctl.setText(self._body_ctl.getText())
 
     def set_navigation(self):
         self.setFocus(self._recipient_ctl)
@@ -83,11 +89,15 @@ class NewMailWindow(pyxbmct.AddonDialogWindow):
         self._body_ctl.controlUp(self._subject_ctl)
         self._ok_button.controlLeft(self._cancel_button)
         self._cancel_button.controlRight(self._ok_button)
+        self._cancel_button.controlUp(self._body_ctl)
         self._ok_button.controlUp(self._body_ctl)
 
     def set_events(self):
         self.connect(self._ok_button,self.send_mail)
         self.connect(self._cancel_button,self.close)
+
+    def onAction(self, action):
+        self.update_view()
 
     def send_mail(self):
         pass
